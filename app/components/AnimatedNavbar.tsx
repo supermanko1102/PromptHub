@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 import { Session } from "next-auth";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Menu, MenuItem, HoveredLink } from "./ui/navbar-menu";
+import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 
 // 註冊 ScrollTrigger 插件
 if (typeof window !== "undefined") {
@@ -24,91 +25,153 @@ const AnimatedNavbar = ({
   onSignIn,
 }: AnimatedNavbarProps) => {
   const navbarRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
     const navbar = navbarRef.current;
 
-    // 初始設置：導航欄隱藏
     gsap.set(navbar, {
-      yPercent: -100,
-      opacity: 0,
+      opacity: 1,
     });
 
     // 創建滾動觸發的動畫
-    const showNav = gsap.to(navbar, {
-      yPercent: 0,
-      opacity: 1,
-      duration: 0.6,
-      paused: true,
-      ease: "power2.out",
-    });
+    const showNav = gsap.fromTo(
+      navbar,
+      { opacity: 0 }, // 動畫開始狀態
+      {
+        opacity: 1,
+        duration: 2,
+        paused: true,
+        ease: "power2.out",
+      }
+    );
 
     // 設置 ScrollTrigger
     ScrollTrigger.create({
-      start: "top top-=100",
-      end: 99999,
-      onUpdate: (self) => {
-        // 向下滾動時顯示，向上滾動時隱藏
-        if (self.direction === 1) {
-          showNav.play();
-        } else {
-          showNav.reverse();
-        }
+      trigger: "body",
+      start: "40px top",
+      end: "+=1",
+      onEnter: () => {
+        showNav.restart();
+      },
+      onLeaveBack: () => {
+        gsap.set(navbar, { opacity: 1 });
       },
     });
 
-    // 清理函數
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
+  const placeholders = [
+    "我是誰?",
+    "我從哪裡來?",
+    "我到哪裡去?",
+    "我為什麼在這裡?",
+    "我為什麼在這裡?",
+  ];
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("submitted");
+  };
   return (
-    <div
-      ref={navbarRef}
-      className="fixed top-0 left-0 right-0 px-5 py-3 bg-white shadow-sm font-work-sans text-black z-50"
-    >
-      <nav className="flex justify-between items-center">
-        <div>
-          <Link href="/">
-            <Image src="/logo.png" alt="logo" width={100} height={36} />
-          </Link>
-        </div>
+    <div className="max-w-5xl mx-auto">
+      <div
+        ref={navbarRef}
+        className="fixed top-0 left-0 right-0 bg-[#1a1b2e] text-white z-50"
+      >
+        <nav className="container mx-auto px-5 py-3">
+          <div className="flex justify-between items-center">
+            {/* 左側 Logo */}
+            <div className="flex items-center">
+              <Link href="/" className="text-[#00ffff] text-2xl font-bold">
+                PromptHub
+              </Link>
+            </div>
 
-        <div className="flex items-center gap-4">
-          {session && session.user ? (
-            <>
-              <Link href="/startup/create">
-                <span className="hover:scale-105 transition-transform">
-                  建立
-                </span>
-              </Link>
-              <form action={onSignOut}>
-                <button
-                  type="submit"
-                  className="hover:scale-105 transition-transform"
-                >
-                  登出
-                </button>
-              </form>
-              <Link href={`/user/${session.user.id}`}>
-                <span className="hover:scale-105 transition-transform">
-                  {session.user.name}
-                </span>
-              </Link>
-            </>
-          ) : (
-            <form action={onSignIn}>
-              <button
-                type="submit"
-                className="hover:scale-105 transition-transform"
+            {/* 右側選單 */}
+            <div className="flex items-center gap-6">
+              <div className=" flex flex-col justify-center items-center px-4">
+                <PlaceholdersAndVanishInput
+                  placeholders={placeholders}
+                  onChange={handleChange}
+                  onSubmit={onSubmit}
+                />
+              </div>
+
+              <div className="flex items-center gap-6">
+                <Menu setActive={setActive}>
+                  <MenuItem
+                    setActive={setActive}
+                    active={active}
+                    item={"AI 平台"}
+                  >
+                    <div className="flex flex-col space-y-4 text-sm">
+                      <HoveredLink href="/web-dev">ChatGPT</HoveredLink>
+                      <HoveredLink href="/interface-design">
+                        Midjourney
+                      </HoveredLink>
+                      <HoveredLink href="/seo">Stable Diffusion</HoveredLink>
+                      <HoveredLink href="/branding">Branding</HoveredLink>
+                    </div>
+                  </MenuItem>
+                </Menu>
+                <Link href="#" className="hover:text-[#00ffff]">
+                  關於
+                </Link>
+                <Link href="#" className="hover:text-[#00ffff]">
+                  聯絡我們
+                </Link>
+
+                {/* 保留原有的登入登出功能 */}
+                {session?.user ? (
+                  <div className="flex items-center gap-4">
+                    <span>{session.user.name}</span>
+                    <button
+                      onClick={() => onSignOut()}
+                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                    >
+                      登出
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => onSignIn()}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  >
+                    登入
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        {/* 次導航欄 */}
+        <div className="border-t border-gray-700">
+          <div className="container mx-auto px-5">
+            <div className="flex items-center gap-6 py-2 text-sm">
+              <Link
+                href="#"
+                className="flex items-center gap-2 hover:text-[#00ffff]"
               >
-                登入
-              </button>
-            </form>
-          )}
+                <span>Digital Marketing</span>
+              </Link>
+              <Link
+                href="#"
+                className="flex items-center gap-2 hover:text-[#00ffff]"
+              >
+                <span>Drawings</span>
+              </Link>
+              {/* ... 其他分類連結 ... */}
+            </div>
+          </div>
         </div>
-      </nav>
+      </div>
     </div>
   );
 };
