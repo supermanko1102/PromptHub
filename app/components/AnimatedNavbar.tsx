@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Menu, MenuItem, HoveredLink } from "./ui/navbar-menu";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // 註冊 ScrollTrigger 插件
 if (typeof window !== "undefined") {
@@ -24,9 +25,33 @@ const AnimatedNavbar = ({
   onSignOut,
   onSignIn,
 }: AnimatedNavbarProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const navbarRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string | null>(null);
+  const [inputValue, setInputValue] = useState<string>(
+    searchParams.get("query") || ""
+  );
+  const handleSearch = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set("query", value);
+    } else {
+      params.delete("query");
+    }
 
+    router.replace(`/?${params.toString()}`);
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+
+    handleSearch(inputValue.trim());
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
   useEffect(() => {
     const navbar = navbarRef.current;
 
@@ -71,13 +96,6 @@ const AnimatedNavbar = ({
     "我為什麼在這裡?",
   ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("submitted");
-  };
   return (
     <div className="max-w-5xl mx-auto">
       <div
@@ -100,6 +118,7 @@ const AnimatedNavbar = ({
                   placeholders={placeholders}
                   onChange={handleChange}
                   onSubmit={onSubmit}
+                  inputValue={inputValue}
                 />
               </div>
 
