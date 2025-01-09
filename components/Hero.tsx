@@ -4,7 +4,7 @@ import { HeroParallax } from "@/components/ui/hero-parallax";
 
 export function Hero() {
   return (
-    <section className="h-screen w-screen">
+    <section className=" max-w-full">
       <HeroParallax products={products} />
     </section>
   );

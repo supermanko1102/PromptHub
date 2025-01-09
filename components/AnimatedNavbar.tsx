@@ -181,15 +181,38 @@ const AnimatedNavbar = ({
                 href="#"
                 className="flex items-center gap-2 hover:text-[#00ffff]"
               >
-                <span>Digital Marketing</span>
+                <span>軟體工程師</span>
               </Link>
               <Link
                 href="#"
                 className="flex items-center gap-2 hover:text-[#00ffff]"
               >
-                <span>Drawings</span>
+                <span>藝術作者</span>
               </Link>
-              {/* ... 其他分類連結 ... */}
+              <Link
+                href="#"
+                className="flex items-center gap-2 hover:text-[#00ffff]"
+              >
+                <span>數位行銷</span>
+              </Link>
+              <Link
+                href="#"
+                className="flex items-center gap-2 hover:text-[#00ffff]"
+              >
+                <span>建築</span>
+              </Link>
+              <Link
+                href="#"
+                className="flex items-center gap-2 hover:text-[#00ffff]"
+              >
+                <span>汽車</span>
+              </Link>
+              <Link
+                href="#"
+                className="flex items-center gap-2 hover:text-[#00ffff]"
+              >
+                <span>圖紙</span>
+              </Link>
             </div>
           </div>
         </div>

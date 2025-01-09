@@ -69,6 +69,9 @@ export const HeroParallax = ({
         }}
         className=""
       >
+        <motion.div className=" text-center mb-2 text-2xl md:text-4xl font-bold text-blue-500">
+          軟體工程師的Promote
+        </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
           {firstRow.map((product) => (
             <ProductCard
@@ -78,6 +81,9 @@ export const HeroParallax = ({
             />
           ))}
         </motion.div>
+        <motion.div className=" text-center mb-2 text-2xl md:text-4xl font-bold text-blue-500">
+          藝術作者的Promote
+        </motion.div>
         <motion.div className="flex flex-row  mb-20 space-x-20 ">
           {secondRow.map((product) => (
             <ProductCard
@@ -86,6 +92,9 @@ export const HeroParallax = ({
               key={product.title}
             />
           ))}
+        </motion.div>
+        <motion.div className=" text-center mb-2 text-2xl md:text-4xl font-bold text-blue-500">
+          其他的Promote
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
           {thirdRow.map((product) => (
