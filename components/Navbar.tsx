@@ -1,5 +1,5 @@
 import { auth, signIn, signOut } from "@/auth";
-import AnimatedNavbar from "@/app/components/AnimatedNavbar";
+import AnimatedNavbar from "@/components/AnimatedNavbar";
 
 const Navbar = async () => {
   const session = await auth();

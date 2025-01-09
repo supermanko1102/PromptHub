@@ -3,16 +3,11 @@
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { Session } from "next-auth";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, useScroll } from "framer-motion";
 import { Menu, MenuItem, HoveredLink } from "./ui/navbar-menu";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { useRouter, useSearchParams } from "next/navigation";
-
-// 註冊 ScrollTrigger 插件
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { HoverBorderGradient } from "./ui/hover-border-gradient";
 
 interface AnimatedNavbarProps {
   session: Session | null;
@@ -32,6 +27,9 @@ const AnimatedNavbar = ({
   const [inputValue, setInputValue] = useState<string>(
     searchParams.get("query") || ""
   );
+  const { scrollY } = useScroll();
+  const [isScrolled, setIsScrolled] = useState(false);
+
   const handleSearch = (value: string) => {
     const params = new URLSearchParams(searchParams);
     if (value) {
@@ -52,42 +50,13 @@ const AnimatedNavbar = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+
   useEffect(() => {
-    const navbar = navbarRef.current;
-
-    gsap.set(navbar, {
-      opacity: 1,
+    return scrollY.onChange((latest) => {
+      setIsScrolled(latest > 40);
     });
+  }, [scrollY]);
 
-    // 創建滾動觸發的動畫
-    const showNav = gsap.fromTo(
-      navbar,
-      { opacity: 0 }, // 動畫開始狀態
-      {
-        opacity: 1,
-        duration: 2,
-        paused: true,
-        ease: "power2.out",
-      }
-    );
-
-    // 設置 ScrollTrigger
-    ScrollTrigger.create({
-      trigger: "body",
-      start: "40px top",
-      end: "+=1",
-      onEnter: () => {
-        showNav.restart();
-      },
-      onLeaveBack: () => {
-        gsap.set(navbar, { opacity: 1 });
-      },
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
   const placeholders = [
     "我是誰?",
     "我從哪裡來?",
@@ -98,9 +67,28 @@ const AnimatedNavbar = ({
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div
+      <motion.div
         ref={navbarRef}
         className="fixed top-0 left-0 right-0 bg-[#1a1b2e] text-white z-50"
+        initial={{ opacity: 1 }}
+        animate={
+          isScrolled
+            ? {
+                opacity: [0, 1],
+                y: [-20, 3, 0],
+                scale: [0.97, 1.02, 1],
+              }
+            : {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }
+        }
+        transition={{
+          duration: 0.7,
+          times: [0, 0.8, 1],
+          ease: "easeOut",
+        }}
       >
         <nav className="container mx-auto px-5 py-3">
           <div className="flex justify-between items-center">
@@ -148,22 +136,37 @@ const AnimatedNavbar = ({
 
                 {/* 保留原有的登入登出功能 */}
                 {session?.user ? (
-                  <div className="flex items-center gap-4">
+                  // <div className="flex items-center gap-4">
+                  //   <span>{session.user.name}</span>
+                  //   <button
+                  //     onClick={() => onSignOut()}
+                  //     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  //   >
+                  //     登出
+                  //   </button>
+                  // </div>
+                  <>
                     <span>{session.user.name}</span>
-                    <button
+                    <HoverBorderGradient
+                      containerClassName="rounded-full"
+                      as="button"
+                      className="  bg-transparent text-white flex items-center space-x-2 "
                       onClick={() => onSignOut()}
-                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                     >
-                      登出
-                    </button>
-                  </div>
+                      <span>登出</span>
+                    </HoverBorderGradient>
+                  </>
                 ) : (
-                  <button
-                    onClick={() => onSignIn()}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                  >
-                    登入
-                  </button>
+                  <>
+                    <HoverBorderGradient
+                      containerClassName="rounded-full"
+                      as="button"
+                      className="  bg-transparent text-white flex items-center space-x-2 "
+                      onClick={() => onSignIn()}
+                    >
+                      <span>登入</span>
+                    </HoverBorderGradient>
+                  </>
                 )}
               </div>
             </div>
@@ -190,7 +193,7 @@ const AnimatedNavbar = ({
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
