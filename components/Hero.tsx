@@ -1,106 +1,120 @@
-"use client";
 import React from "react";
-import { HeroParallax } from "@/components/ui/hero-parallax";
+import { HeroParallax } from "@/components/HeroParallax";
+import { startupQuery } from "@/sanity/lib/queries";
+import { client } from "@/sanity/lib/client";
 
-export function Hero() {
+export async function Hero() {
+  const posts = await client.fetch(startupQuery);
+  console.log(JSON.stringify(posts, null, 2));
   return (
-    <section className=" max-w-full">
-      <HeroParallax products={products} />
+    <section className="max-h-full max-w-full">
+      <HeroParallax products={posts} />
     </section>
   );
 }
 export const products = [
   {
-    title: "Cursor",
-    link: "https://gomoonbeam.com",
+    title: "ChatGPT Prompt",
+    link: "/prompts/chatgpt",
     thumbnail:
       "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    category: "AI 對話",
+    description: "優化你的 ChatGPT 提示詞",
+    _id: 1,
+    _createdAt: new Date(),
+    View: 144,
+    author: { _id: 1 },
+    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
   {
-    title: "Cursor",
-    link: "https://cursor.so",
+    title: "ChatGPT Prompt",
+    link: "/prompts/chatgpt",
     thumbnail:
       "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    category: "AI 對話",
+    description: "優化你的 ChatGPT 提示詞",
+    _id: 2,
+    _createdAt: new Date(),
+    View: 144,
+    author: { _id: 1 },
+    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
   {
-    title: "Cursor",
-    link: "https://userogue.com",
+    title: "ChatGPT Prompt",
+    link: "/prompts/chatgpt",
     thumbnail:
       "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    category: "AI 對話",
+    description: "優化你的 ChatGPT 提示詞",
+    _id: 3,
+    _createdAt: new Date(),
+    View: 144,
+    author: { _id: 1 },
+    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
-
   {
-    title: "Cursor",
-    link: "https://editorially.org",
+    title: "ChatGPT Prompt",
+    link: "/prompts/chatgpt",
     thumbnail:
       "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    category: "AI 對話",
+    description: "優化你的 ChatGPT 提示詞",
+    _id: 4,
+    _createdAt: new Date(),
+    View: 144,
+    author: { _id: 1 },
+    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
   {
-    title: "Editrix AI",
-    link: "https://editrix.ai",
+    title: "ChatGPT Prompt",
+    link: "/prompts/chatgpt",
     thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/editrix.png",
+      "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    category: "AI 對話",
+    description: "優化你的 ChatGPT 提示詞",
+    _id: 5,
+    _createdAt: new Date(),
+    View: 144,
+    author: { _id: 1 },
+    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
   {
-    title: "Pixel Perfect",
-    link: "https://app.pixelperfect.quest",
+    title: "ChatGPT Prompt",
+    link: "/prompts/chatgpt",
     thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/pixelperfect.png",
-  },
-
-  {
-    title: "Algochurn",
-    link: "https://algochurn.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/algochurn.png",
-  },
-  {
-    title: "Aceternity UI",
-    link: "https://ui.aceternity.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+      "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    category: "AI 對話",
+    description: "優化你的 ChatGPT 提示詞",
+    _id: 6,
+    _createdAt: new Date(),
+    View: 144,
+    author: { _id: 1 },
+    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
   {
-    title: "Tailwind Master Kit",
-    link: "https://tailwindmasterkit.com",
+    title: "ChatGPT Prompt",
+    link: "/prompts/chatgpt",
     thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/tailwindmasterkit.png",
+      "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    category: "AI 對話",
+    description: "優化你的 ChatGPT 提示詞",
+    _id: 7,
+    _createdAt: new Date(),
+    View: 144,
+    author: { _id: 1 },
+    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
   {
-    title: "SmartBridge",
-    link: "https://smartbridgetech.com",
+    title: "ChatGPT Prompt",
+    link: "/prompts/chatgpt",
     thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/smartbridge.png",
-  },
-  {
-    title: "Renderwork Studio",
-    link: "https://renderwork.studio",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/renderwork.png",
-  },
-
-  {
-    title: "Creme Digital",
-    link: "https://cremedigital.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/cremedigital.png",
-  },
-  {
-    title: "Golden Bells Academy",
-    link: "https://goldenbellsacademy.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/goldenbellsacademy.png",
-  },
-  {
-    title: "Invoker Labs",
-    link: "https://invoker.lol",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/invoker.png",
-  },
-  {
-    title: "E Free Invoice",
-    link: "https://efreeinvoice.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
+      "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    category: "AI 對話",
+    description: "優化你的 ChatGPT 提示詞",
+    _id: 8,
+    _createdAt: new Date(),
+    View: 144,
+    author: { _id: 1 },
+    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
   },
 ];

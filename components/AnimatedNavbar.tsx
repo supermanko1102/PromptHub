@@ -4,10 +4,10 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { Session } from "next-auth";
 import { motion, useScroll } from "framer-motion";
-import { Menu, MenuItem, HoveredLink } from "./ui/navbar-menu";
-import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
+import { Menu, MenuItem, HoveredLink } from "@/components/ui/navbarMenu";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { useRouter, useSearchParams } from "next/navigation";
-import { HoverBorderGradient } from "./ui/hover-border-gradient";
+import { HoverBorderGradient } from "@/components/HoverBorderGradient";
 
 interface AnimatedNavbarProps {
   session: Session | null;

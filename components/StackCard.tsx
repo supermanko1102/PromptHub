@@ -1,15 +1,47 @@
 "use client";
-import { CardStack } from "@/components/ui/card-stack";
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { motion, MotionValue } from "framer-motion";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-export function StackCard({ translate }: { translate: MotionValue<number> }) {
-  //   return (
-  //     <div className="h-[40rem] flex items-center justify-center w-full">
-  //       <CardStack items={CARDS} />
-  //     </div>
-  //   );
-  // }
+type Card = {
+  _id: number;
+  _createdAt: Date;
+  View: number;
+  author: { _id: number };
+  description: string;
+  image: string;
+  category: string;
+  title: string;
+};
+
+interface StackCardProps {
+  items: Card[];
+  translate?: MotionValue<number>;
+  offset?: number;
+  scaleFactor?: number;
+}
+
+export function StackCard({
+  items,
+  translate,
+  offset = 10,
+  scaleFactor = 0.06,
+}: StackCardProps) {
+  const [cards, setCards] = useState<Card[]>(items);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCards((prevCards) => {
+        const newArray = [...prevCards];
+        newArray.unshift(newArray.pop()!);
+        return newArray;
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <motion.div
       style={{
@@ -18,10 +50,52 @@ export function StackCard({ translate }: { translate: MotionValue<number> }) {
       whileHover={{
         y: -20,
       }}
-      key={0}
-      className="group/product h-96 w-[30rem] relative flex-shrink-0"
+      className="group/product relative h-96 w-[30rem] flex-shrink-0"
     >
-      <CardStack items={CARDS} />
+      <div className="relative h-60 w-60 md:h-60 md:w-96">
+        {cards.map((card, index) => (
+          <motion.div
+            key={card._id}
+            className="absolute h-60 w-60 md:h-72 md:w-96 rounded-3xl shadow-xl shadow-black/[0.1] flex flex-col justify-between"
+            style={{
+              transformOrigin: "top center",
+            }}
+            animate={{
+              top: index * -offset,
+              scale: 1 - index * scaleFactor,
+              zIndex: cards.length - index,
+            }}
+          >
+            <div className="relative h-full w-full">
+              <div className="absolute inset-0 w-full h-full">
+                <Image
+                  src={card.image}
+                  alt={card.title}
+                  fill
+                  className="object-cover rounded-2xl"
+                />
+              </div>
+
+              <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/25 to-black/50 rounded-2xl">
+                <div className="absolute top-4 left-4 right-4 text-white flex justify-between text-xs opacity-80">
+                  <span>{card._createdAt.toLocaleDateString()}</span>
+                  <span>{card.View} 次觀看</span>
+                </div>
+
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <h3 className="font-bold text-xl mb-2">{card.title}</h3>
+                  <p className="text-sm opacity-90 line-clamp-2">
+                    {card.description}
+                  </p>
+                  <div className="flex items-center mt-2 text-xs opacity-80">
+                    <span>{card.category}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </motion.div>
   );
 }
@@ -45,27 +119,3 @@ export const Highlight = ({
     </span>
   );
 };
-
-const CARDS = [
-  {
-    _createdAt: new Date(),
-    View: 144,
-    author: { _id: 1 },
-    _id: 1,
-    description: "javascript的Promptjavascript的Promptjavascript的Prompt",
-    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
-    category: "Cursor",
-    title: "javascript的Prompt",
-  },
-  {
-    _createdAt: new Date(),
-    View: 44,
-    author: { _id: 2 },
-    _id: 2,
-    description:
-      "typescript的Prompttypescript的Prompttypescript的Prompttypescript的Prompt",
-    image: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
-    category: "Cursor",
-    title: "typescript的Prompt",
-  },
-];

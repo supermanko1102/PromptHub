@@ -49,7 +49,7 @@ export const CardStack = ({
         return (
           <motion.div
             key={card._id}
-            className="absolute h-60 w-60 md:h-72 md:w-96 rounded-3xl p-4 shadow-xl border border-neutral-200  shadow-black/[0.1] flex flex-col justify-between"
+            className="absolute h-60 w-60 md:h-72 md:w-96 rounded-3xl shadow-xl shadow-black/[0.1] flex flex-col justify-between"
             style={{
               transformOrigin: "top center",
             }}
@@ -70,6 +70,11 @@ export const CardStack = ({
               </div>
 
               <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/25 to-black/50 rounded-2xl">
+                <div className="absolute top-4 left-4 right-4 text-white flex justify-between text-xs opacity-80">
+                  <span>{card._createdAt.toLocaleDateString()}</span>
+                  <span>{card.View} 次觀看</span>
+                </div>
+
                 <div className="absolute bottom-4 left-4 right-4 text-white">
                   <h3 className="font-bold text-xl mb-2">{card.title}</h3>
                   <p className="text-sm opacity-90 line-clamp-2">
@@ -77,8 +82,6 @@ export const CardStack = ({
                   </p>
                   <div className="flex items-center mt-2 text-xs opacity-80">
                     <span>{card.category}</span>
-                    <span className="mx-2">•</span>
-                    <span>{card.View} 次觀看</span>
                   </div>
                 </div>
               </div>

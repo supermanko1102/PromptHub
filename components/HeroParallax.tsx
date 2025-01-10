@@ -1,23 +1,23 @@
 "use client";
 import React from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  MotionValue,
-} from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { StackCard } from "@/components/StackCard";
+import { ProductCard } from "@/components/ProductCard";
 
 export const HeroParallax = ({
   products,
 }: {
   products: {
     title: string;
-    link: string;
+    link?: string;
     thumbnail: string;
+    category: string;
+    description: string;
+    _id: number;
+    _createdAt: Date;
+    View: number;
+    author: { _id: number };
+    image: string;
   }[];
 }) => {
   const firstRow = products.slice(0, 5);
@@ -71,7 +71,7 @@ export const HeroParallax = ({
         className=""
       >
         <motion.div className=" text-center mb-2 text-2xl md:text-4xl font-bold text-blue-500">
-          各種AI工具
+          探索精選提示詞
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
           {firstRow.map((product) => (
@@ -82,29 +82,26 @@ export const HeroParallax = ({
             />
           ))}
         </motion.div>
-        <motion.div className=" text-center mb-2 text-2xl md:text-4xl font-bold text-blue-500">
-          適用於軟體工程師
+        <motion.div className=" text-center mb-10 text-2xl md:text-4xl font-bold text-blue-500">
+          熱門分類
         </motion.div>
-        <motion.div className="flex flex-row  mb-20 space-x-20 ">
-          {/* {secondRow.map((product) => (
-            <ProductCard
-              product={product}
+        <motion.div className="flex flex-row  mb-10 space-x-20 ">
+          {secondRow.map((product) => (
+            <StackCard
+              items={[product]}
               translate={translateXReverse}
               key={product.title}
             />
-          ))} */}
-          {secondRow.map((product) => (
-            <StackCard translate={translateXReverse} key={product.title} />
           ))}
         </motion.div>
         <motion.div className=" text-center mb-2 text-2xl md:text-4xl font-bold text-blue-500">
-          其他的Promote
+          最新分享
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
           {thirdRow.map((product) => (
             <ProductCard
               product={product}
-              translate={translateX}
+              //   translate={translateX}
               key={product.title}
             />
           ))}
@@ -124,47 +121,5 @@ export const Header = () => {
         幫我想想怎麼寫提示詞, 讓我們的Hub可以被更多人看到。
       </p>
     </div>
-  );
-};
-
-export const ProductCard = ({
-  product,
-  translate,
-}: {
-  product: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  };
-  translate: MotionValue<number>;
-}) => {
-  return (
-    <motion.div
-      style={{
-        x: translate,
-      }}
-      whileHover={{
-        y: -20,
-      }}
-      key={product.title}
-      className="group/product h-96 w-[30rem] relative flex-shrink-0"
-    >
-      <Link
-        href={product.link}
-        className="block group-hover/product:shadow-2xl "
-      >
-        <Image
-          src={product.thumbnail}
-          height="600"
-          width="600"
-          className="object-cover object-left-top absolute h-full w-full inset-0"
-          alt={product.title}
-        />
-      </Link>
-      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
-        {product.title}
-      </h2>
-    </motion.div>
   );
 };
