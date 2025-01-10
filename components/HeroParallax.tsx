@@ -10,19 +10,18 @@ export const HeroParallax = ({
   products: {
     title: string;
     link?: string;
-    thumbnail: string;
     category: string;
     description: string;
     _id: number;
     _createdAt: Date;
     View: number;
-    author: { _id: number };
+    author: { name: string; image: string; bio: string };
     image: string;
   }[];
 }) => {
-  const firstRow = products.slice(0, 5);
-  const secondRow = products.slice(5, 10);
-  const thirdRow = products.slice(10, 15);
+  const firstRow = products.slice(0, 3);
+  const secondRow = products.slice(3, 6);
+  const thirdRow = products.slice(6, 9);
   const ref = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,

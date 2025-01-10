@@ -8,11 +8,11 @@ type Card = {
   _id: number;
   _createdAt: Date;
   View: number;
-  author: { _id: number };
   description: string;
   image: string;
   category: string;
   title: string;
+  author: { name: string; image: string; bio: string };
 };
 
 interface StackCardProps {
