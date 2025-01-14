@@ -12,5 +12,6 @@ export const startupQuery =
     views,
     description,
     category,
-    image
+    image,
+    isFeatured
 }`);

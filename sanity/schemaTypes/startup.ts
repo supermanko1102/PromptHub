@@ -25,6 +25,11 @@ export const startup = defineType({
       type: "number",
     }),
     defineField({
+      name: "isFeatured",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
       name: "description",
       type: "text",
     }),

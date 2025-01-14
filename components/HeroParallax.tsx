@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { StackCard } from "@/components/StackCard";
 import { ProductCard } from "@/components/ProductCard";
 
 export const HeroParallax = ({
@@ -17,6 +16,7 @@ export const HeroParallax = ({
     View: number;
     author: { name: string; image: string; bio: string };
     image: string;
+    isFeatured: boolean;
   }[];
 }) => {
   const firstRow = products.slice(0, 3);
@@ -30,14 +30,14 @@ export const HeroParallax = ({
 
   const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
 
-  const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1000]),
-    springConfig
-  );
-  const translateXReverse = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, -1000]),
-    springConfig
-  );
+  // const translateX = useSpring(
+  //   useTransform(scrollYProgress, [0, 1], [0, 1000]),
+  //   springConfig
+  // );
+  // const translateXReverse = useSpring(
+  //   useTransform(scrollYProgress, [0, 1], [0, -1000]),
+  //   springConfig
+  // );
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
     springConfig
@@ -74,11 +74,7 @@ export const HeroParallax = ({
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
           {firstRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-            />
+            <ProductCard product={product} key={product.title} />
           ))}
         </motion.div>
         <motion.div className=" text-center mb-10 text-2xl md:text-4xl font-bold text-blue-500">
@@ -86,11 +82,12 @@ export const HeroParallax = ({
         </motion.div>
         <motion.div className="flex flex-row  mb-10 space-x-20 ">
           {secondRow.map((product) => (
-            <StackCard
-              items={[product]}
-              translate={translateXReverse}
-              key={product.title}
-            />
+            // <StackCard
+            //   items={[product]}
+            //   translate={translateXReverse}
+            //   key={product.title}
+            // />
+            <ProductCard product={product} key={product.title} />
           ))}
         </motion.div>
         <motion.div className=" text-center mb-2 text-2xl md:text-4xl font-bold text-blue-500">
@@ -98,11 +95,7 @@ export const HeroParallax = ({
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
           {thirdRow.map((product) => (
-            <ProductCard
-              product={product}
-              //   translate={translateX}
-              key={product.title}
-            />
+            <ProductCard product={product} key={product.title} />
           ))}
         </motion.div>
       </motion.div>

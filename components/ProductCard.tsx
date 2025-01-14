@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, MotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import { Author, Startup } from "@/sanity/types";
 
 export type StartupTypeCard = Omit<Startup, "author"> & { author?: Author };
@@ -14,19 +14,17 @@ interface ProductCardProps {
     image: string;
     category: string;
     description: string;
-    View?: number;
+    views?: number;
     author: { name: string; image: string; bio: string };
+    _createdAt: Date;
   };
-  translate?: MotionValue<number>;
 }
 
-export const ProductCard = ({ product, translate }: ProductCardProps) => {
-  const { title, image, category, description, View, author } = product;
+export const ProductCard = ({ product }: ProductCardProps) => {
+  const { title, image, category, description, views, author, _createdAt } =
+    product;
   return (
     <motion.div
-      style={{
-        x: translate,
-      }}
       whileHover={{
         y: -20,
         scale: 1.02,
@@ -43,25 +41,25 @@ export const ProductCard = ({ product, translate }: ProductCardProps) => {
           className="object-cover h-full w-full transition-transform duration-200 group-hover:scale-105"
           alt={title}
         />
-        {View !== undefined && (
-          <div className="absolute top-2 right-2 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm text-white text-sm flex items-center space-x-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-              <path
-                fillRule="evenodd"
-                d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span>{View}</span>
-          </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+        <div className="absolute top-2 right-2 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm text-white text-sm flex items-center space-x-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+            <path
+              fillRule="evenodd"
+              d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span>{views}</span>
+        </div>
+        <div className="absolute top-2 left-2 px-2 py-1 rounded-full bg-black/50 backdrop-blur-sm text-white text-sm flex items-center space-x-1">
+          <span>{new Date(_createdAt).toLocaleDateString()}</span>
+        </div>
       </Link>
 
       {/* 內容區域 */}
