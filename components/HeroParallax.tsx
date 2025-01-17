@@ -2,7 +2,8 @@
 import React from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ProductCard } from "@/components/ProductCard";
-
+import { FlipWords } from "./ui/flipWord";
+import { TypewriterEffectSmooth } from "./ui/typewriterEffect";
 export const HeroParallax = ({
   products,
 }: {
@@ -104,13 +105,18 @@ export const HeroParallax = ({
 };
 
 export const Header = () => {
+  const TypeWord = [{ text: "AI 對話的橋樑" }];
+  const words = ["創新", "專業", "高效", "智能", "精準"];
   return (
-    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
+    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
       <h1 className="text-2xl md:text-7xl font-bold text-blue-500">
-        Promote your <br /> Hub
+        {/* AI 對話的橋樑 <br /> */}
+        <TypewriterEffectSmooth words={TypeWord} className="text-blue-500" />
       </h1>
       <p className="max-w-2xl text-base md:text-xl mt-8 text-blue-300">
-        幫我想想怎麼寫提示詞, 讓我們的Hub可以被更多人看到。
+        發掘
+        <FlipWords words={words} className="text-blue-500 text-2xl" />的 AI
+        提示詞
       </p>
     </div>
   );
