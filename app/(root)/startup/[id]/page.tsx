@@ -1,3 +1,4 @@
+import { ColorfulText } from "@/components/ui/colorfulText";
 import { client } from "@/sanity/lib/client";
 import { startupByIdQuery } from "@/sanity/lib/queries";
 import { notFound } from "next/navigation";
@@ -9,9 +10,23 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   if (!post) {
     notFound();
   }
+  const { _createdAt, title } = post;
+
+  const formattedDate = new Date(_createdAt).toLocaleDateString("zh-TW", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <>
-      <h1 className="text-2xl font-bold">{post.title}</h1>
+      <section className="flex flex-col items-center justify-center !min-h-[230px] ">
+        <p>{formattedDate}</p>
+
+        <h1 className="text-2xl font-bold">
+          <ColorfulText text={title} />
+        </h1>
+      </section>
     </>
   );
 };
