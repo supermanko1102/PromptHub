@@ -17,12 +17,21 @@ interface ProductCardProps {
     views?: number;
     author: { name: string; image: string; bio: string };
     _createdAt: Date;
+    _id: number;
   };
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
-  const { title, image, category, description, views, author, _createdAt } =
-    product;
+  const {
+    title,
+    image,
+    category,
+    description,
+    views,
+    author,
+    _createdAt,
+    _id,
+  } = product;
   return (
     <motion.div
       whileHover={{
@@ -33,7 +42,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       className="group h-96 w-[30rem] relative flex-shrink-0 rounded-xl overflow-hidden bg-white/10 backdrop-blur-sm border border-white/20"
     >
       {/* 圖片區域 */}
-      <Link href={"#"} className="block group-hover:shadow-2xl relative h-2/3">
+      <Link
+        href={`/startup/${_id}`}
+        className="block group-hover:shadow-2xl relative h-2/3"
+      >
         <Image
           src={image}
           height={600}

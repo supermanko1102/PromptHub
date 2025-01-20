@@ -217,6 +217,8 @@ const AnimatedNavbar = ({
           </div>
         </div>
       </motion.div>
+      {/* 添加一個占位 div */}
+      <div className="h-[105px]" />
     </div>
   );
 };
