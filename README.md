@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## 開發指令
+
+本專案使用 `just` 來管理 Docker 指令。以下是可用的指令：
+
+- `just dev` - 啟動開發環境
+- `just dev-d` - 在背景啟動開發環境
+- `just down` - 停止所有容器
+- `just build` - 重建並啟動容器
+- `just clean` - 清理 Docker 資源
+- `just logs` - 查看容器日誌
+- `just shell` - 進入容器 shell
+- `just npm <command>` - 運行 npm 命令
+- `just install` - 重新安裝 node_modules
+- `just update` - 更新套件
